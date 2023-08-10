@@ -1,6 +1,8 @@
 # jse-eval-vue
 
-A webapp for playing with javascript expressions
+A webapp for testing and sharing javascript expressions made with vue3 components.
+
+See [demo](https://mattsouth.github.io/jse-eval-vue/).
 
 ## TODO
 
