@@ -14,6 +14,7 @@ const vueDocsPlugin = {
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/jse-eval-vue/',
   plugins: [
     vue(), vueDocsPlugin
   ],

@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 // see https://blog.logrocket.com/build-deploy-vue-js-app-github-pages/
-const execa = require("execa");
-const fs = require("fs");
+import { execa } from 'execa';
+import fs from 'fs';
+
 (async () => {
   try {
     await execa("git", ["checkout", "--orphan", "gh-pages"]);
