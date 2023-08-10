@@ -20,6 +20,7 @@
     "@vue/eslint-config-prettier": "^8.0.0",
     "eslint": "^8.45.0",
     "eslint-plugin-vue": "^9.15.1",
+    "execa": "^7.2.0",
     "prettier": "^3.0.0",
     "sass": "^1.64.2",
     "vite": "^4.4.6"
