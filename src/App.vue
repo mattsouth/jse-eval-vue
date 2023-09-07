@@ -5,6 +5,9 @@
 <template>
   <div class="col-lg-12 mx-auto p-3">
     <header>
+      <div class="float-end">
+        <a href="https://github.com/mattsouth/jse-eval-vue"><img src="/github.svg" width="24"/></a>
+      </div>
       <div class="fs-2">Javascript expressions</div>
       <p>
         This tool is for testing and sharing javascript expressions that are
