@@ -25,8 +25,12 @@ sample variable values including null (which can be counter intuitive).
 ## TODO
 
 - [ ] sortable EvaluationTable
-- [ ] visual editor#
-  - [ ] send focus to next avaialable text area once a template is chosen or a slot filled
+- [ ] visual view
+  - [ ] centre all text along a given line
+  - [ ] handle broken line vertical spacing
+  - [ ] remove extra space at top of a clause box
+- [ ] visual editor
+  - [ ] send focus to next available input once a template is chosen or a slot filled
   - [ ] inline binary expressions with simple clauses
   - [ ] edit literal and identifier clauses in place
   - [ ] allow delete to remove clauses from AND/OR expressions with more than two clauses
