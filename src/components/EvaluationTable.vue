@@ -7,7 +7,13 @@ Provides a truth table that enumerates all combinations of context variable valu
   <table class="table table-sm" :class="{'opacity-50': disabled}">
     <thead>
       <tr>
-        <th v-for="name in variables" v-bind:key="name">{{ name }}</th>
+        <th v-for="name in variables" v-bind:key="name" class="clickable" @click="changeSort(name)">
+          {{ name }}
+          <span v-if="name == this.sort.variable">
+            <img src="/caret-down-fill.svg" v-if="this.sort.ascending" width="12" />
+            <img src="/caret-up-fill.svg" v-if="!this.sort.ascending" width="12" />
+          </span>
+        </th>
         <th>result</th>
       </tr>
     </thead>
@@ -63,6 +69,14 @@ export default {
     }
   },
   mixins: [Shared],
+  data() {
+    return {
+      sort: {
+        variable: null,
+        ascending: true
+      }
+    }
+  },
   computed: {
     total() {
       return this.context.reduce((acc, val) => this.values(val).length * acc, 1);
@@ -89,14 +103,16 @@ export default {
           comb._value = val;
         }
       }
-      return r;
+      return r.sort(this.comparator);
     },
     singleton() {
       let res = 'n/a';
-      try {
-        res = evaluate(this.expr);
-      } catch (err) {
-        console.log('failed to evaluate', JSON.stringify(this.expr), err.message)
+      if (this.expr && this.expr.length>0) {
+        try {
+          res = evaluate(this.expr);
+        } catch (err) {
+          console.log('failed to evaluate', JSON.stringify(this.expr), err.message)
+        }
       }
       return res;
     }
@@ -104,7 +120,36 @@ export default {
   methods: {
     values(contextvar) {
       return contextvar.selected && contextvar.selected.length>0 ? contextvar.selected : contextvar.values;
+    },
+    comparator(left, right) {
+      if (this.sort.ascending) {
+        return left[this.sort.variable] > right[this.sort.variable] ? 1 : (left[this.sort.variable] == right[this.sort.variable] ? 0 : -1)
+      } else {
+        return left[this.sort.variable] < right[this.sort.variable] ? 1 : (left[this.sort.variable] == right[this.sort.variable] ? 0 : -1)
+      }
+    },
+    changeSort(variable) {
+      if (this.sort.variable == variable) {
+        this.sort.ascending = !this.sort.ascending;
+      } else {
+        this.sort.variable = variable;
+        this.sort.ascending = true;
+      }
+    }
+  },
+  watch: {
+    variables(newval, oldval) {
+      if (!newval.includes(this.sort.variable)) {
+        this.sort.variable = newval[0];
+        this.sort.ascending = true;
+      }
     }
   }
 };
 </script>
+
+<style scoped>
+.clickable {
+  cursor: pointer;
+}
+</style>

@@ -28,7 +28,6 @@ sample variable values including null (which is easy to forget testing and can b
 
 ## TODO
 
-- [ ] sortable EvaluationTable
 - [ ] visual view
   - [ ] centre all text along a given line
   - [ ] handle broken line vertical spacing
