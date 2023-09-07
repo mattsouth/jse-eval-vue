@@ -4,9 +4,9 @@ A webapp for testing and sharing javascript expressions made with vue3 component
 
 Demos:
 
-* [qualifier](https://mattsouth.github.io/jse-eval-vue/?expr=a%3C0%20%3F%20%22negative%22%20%3A%20((a%3D%3D0%20%7C%7C%20a%3D%3Dnull)%20%3F%20%22none%22%20%3A%20a%3E3%20%3F%20%22many%22%20%3A%20%22some%22)&context=%5B%7B%22name%22%3A%22a%22%2C%22values%22%3A%5Bnull%2C-1%2C0%2C1%2C2%2C3%2C4%5D%2C%22selected%22%3A%5B%5D%7D%5D#)
-* [raw negation](https://mattsouth.github.io/jse-eval-vue/?expr=!a&context=%5B%7B%22name%22%3A%22a%22%2C%22values%22%3A%5Bnull%2Ctrue%2Cfalse%5D%2C%22selected%22%3A%5B%5D%7D%5D) - an example of why you need to consider null values in your analysis
-* [fizzbuzz](https://mattsouth.github.io/jse-eval-vue/?expr=i%20%25%2015%20%3D%3D%200%20%3F%20%22fizzbuzz%22%20%3A%20(i%25%203%3D%3D0%20%3F%20%22fizz%22%20%3A%20(i%20%25%205%3D%3D0%20%3F%20%22buzz%22%20%3A%20i))&context=%5B%7B%22name%22%3A%22i%22%2C%22values%22%3A%5Bnull%2C0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13%2C14%2C15%2C16%5D%2C%22selected%22%3A%5B%5D%7D%5D)
+* [qualifier](https://mattsouth.github.io/jse-eval-vue/?expr=a%3C0%20%3F%20%22negative%22%20%3A%20((a%3D%3D0%20%7C%7C%20a%3D%3Dnull)%20%3F%20%22none%22%20%3A%20a%3E3%20%3F%20%22many%22%20%3A%20%22some%22)&context=%5B%7B%22name%22%3A%22a%22%2C%22values%22%3A%5Bnull%2C-1%2C0%2C1%2C2%2C3%2C4%5D%2C%22selected%22%3A%5B%5D%7D%5D#) - describe a number
+* [beware raw negation](https://mattsouth.github.io/jse-eval-vue/?expr=!a&context=%5B%7B%22name%22%3A%22a%22%2C%22values%22%3A%5Bnull%2Ctrue%2Cfalse%5D%2C%22selected%22%3A%5B%5D%7D%5D) - an example of why you need to consider null values when writing expressions
+* [fizzbuzz](https://mattsouth.github.io/jse-eval-vue/?expr=i%20%25%2015%20%3D%3D%200%20%3F%20%22fizzbuzz%22%20%3A%20(i%25%203%3D%3D0%20%3F%20%22fizz%22%20%3A%20(i%20%25%205%3D%3D0%20%3F%20%22buzz%22%20%3A%20i))&context=%5B%7B%22name%22%3A%22i%22%2C%22values%22%3A%5Bnull%2C0%2C1%2C2%2C3%2C4%2C5%2C6%2C7%2C8%2C9%2C10%2C11%2C12%2C13%2C14%2C15%2C16%5D%2C%22selected%22%3A%5B%5D%7D%5D) - a classic programming challenge
 
 ## Requirements
 
