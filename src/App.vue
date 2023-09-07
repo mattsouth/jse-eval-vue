@@ -21,7 +21,7 @@
     <main>
       <div class="row">
         <div class="col-lg">
-          <a role="button" class="btn btn-primary btn-sm float-end" href="/">
+          <a role="button" class="btn btn-primary btn-sm float-end" :href="clearURL()">
             Clear
           </a>
           <div class="fs-4 mb-1">Expression</div>
@@ -246,6 +246,9 @@ export default {
         "&context=" +
         encodeURIComponent(JSON.stringify(this.context.filter((val) => this.variables.includes(val.name))))
       );
+    },
+    clearURL() {
+      return import.meta.env.BASE_URL;
     },
     addRemoveSelected(evt) {
       let elem = this.context.find((val) => val.name == evt.name);
