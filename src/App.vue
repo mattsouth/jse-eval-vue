@@ -12,7 +12,7 @@
         If you enter a javascript expression then it will be evaluated for you.
         If your expression has variables then you can supply values for those variables and
         see all combinations of those values evaluated.  The share button provides you with a url
-        of your analysis that you can send to your peers.
+        for sharing your expression and sample variable values.
       </p>
     </header>
     <main>
