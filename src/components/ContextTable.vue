@@ -5,7 +5,22 @@ TODO: separate out the modal component?
 </docs>
 
 <template>
-  <div class="fs-4 mt-2" :class="{'opacity-50': disabled}">Context</div>
+  <div class="fs-4 mt-2" :class="{'opacity-50': disabled}">
+    Context
+    <span class="float-end">
+      <a tabindex="0"
+        role="button"
+        ref="popoverHelp"
+        class="btn btn-link btn-sm"
+        data-bs-container="body"
+        data-bs-trigger="focus"
+        data-bs-toggle="popover"
+        data-bs-placement="top"
+        data-bs-content="Click a variable name to add sample values">
+        <img src="/question-circle.svg" alt="help" width="16" height="16" />
+      </a>
+    </span>
+  </div>
   <table class="table" :class="{'opacity-50': disabled}">
     <thead>
       <tr>
@@ -121,7 +136,7 @@ TODO: separate out the modal component?
 </template>
 
 <script>
-import { Modal } from "bootstrap";
+import { Modal, Popover } from "bootstrap";
 import Shared from "./shared";
 
 let varModal = null;
@@ -144,6 +159,7 @@ export default {
   emits: ["update", "toggle-value"],
   mounted() {
     varModal = new Modal(this.$refs.variableModal);
+    new Popover(this.$refs.popoverHelp)
   },
   data() {
     return {

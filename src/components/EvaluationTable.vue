@@ -12,23 +12,25 @@ Provides a truth table that enumerates all combinations of context variable valu
       </tr>
     </thead>
     <tbody>
-      <template v-if="variables.length > 0">
-        <template v-if="total<=limit">
-          <tr v-for="res in combinations" v-bind:key="res">
-            <td v-for="name in variables" v-bind:key="name">
-              {{ renderValue(res[name]) }}
-            </td>
-            <td>{{ renderValue(res._value) }}</td>
+      <template v-if="!disabled">
+        <template v-if="variables.length > 0">
+          <template v-if="total<=limit">
+            <tr v-for="res in combinations" v-bind:key="res">
+              <td v-for="name in variables" v-bind:key="name">
+                {{ renderValue(res[name]) }}
+              </td>
+              <td>{{ renderValue(res._value) }}</td>
+            </tr>
+          </template>
+          <tr v-else><td :colspan="variables.length+1">
+            Too many combinations!  The limit for this table is {{limit}}.  Select individual context variable values to reduce the combinatorial explosion.
+          </td></tr>
+        </template>
+        <template v-else>
+          <tr v-if="Object.keys(expr).length > 0">
+            <td>{{ renderValue(singleton) }}</td>
           </tr>
         </template>
-        <tr v-else><td :colspan="variables.length+1">
-          Too many combinations!  The limit for this table is {{limit}}.  Select individual context variable values to reduce the combinatorial explosion.
-        </td></tr>
-      </template>
-      <template v-else>
-        <tr v-if="Object.keys(expr).length > 0">
-          <td>{{ renderValue(singleton) }}</td>
-        </tr>
       </template>
     </tbody>
   </table>
@@ -90,7 +92,13 @@ export default {
       return r;
     },
     singleton() {
-      return evaluate.apply(this.expr);
+      let res = 'n/a';
+      try {
+        res = evaluate(this.expr);
+      } catch (err) {
+        console.log('failed to evaluate', JSON.stringify(this.expr), err.message)
+      }
+      return res;
     }
   },
   methods: {

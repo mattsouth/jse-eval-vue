@@ -1,17 +1,10 @@
 <docs>
-A version of the ace-editor that edits a Json Logic object.
+A version of the ace-editor that edits a data object.
 </docs>
 
 <template>
-  <v-ace-editor
-    v-model:value="text"
-    @init="handleInit"
-    lang="json"
-    theme="textmate"
-    :options="{ tabSize: 2, useWorker: true }"
-    style="height: 300px; border-radius: .25rem; border: 1px solid #ced4da;"
-  />
-  <div class="text-secondary small mb-2">JsonLogic</div>
+  <v-ace-editor v-model:value="text" @init="handleInit" lang="json" theme="textmate"
+    :options="{ tabSize: 2, useWorker: true }" style="height: 300px; border-radius: .25rem; border: 1px solid #ced4da;" />
 </template>
 
 <script>
@@ -19,13 +12,14 @@ import { VAceEditor } from "vue3-ace-editor";
 import ace from "ace-builds";
 import "ace-builds/src-noconflict/mode-json";
 import "ace-builds/src-noconflict/theme-textmate";
-import workerJsonUrl from "file-loader?esModule=false!ace-builds/src-noconflict/worker-json.js";
+import workerJsonUrl from "ace-builds/src-noconflict/worker-json.js?url";
 
 ace.config.setModuleUrl("ace/mode/json_worker", workerJsonUrl);
 
 export default {
   props: {
     value: Object,
+    disabled: Boolean
   },
   data: function () {
     return {
@@ -58,7 +52,7 @@ export default {
         }
       },
       jsonInvalid() {
-          return !this.jsonValid;
+        return !this.jsonValid;
       }
     },
     style() {
@@ -70,16 +64,16 @@ export default {
     },
   },
   methods: {
-      handleInit(editor) {
-          const _this = this;
-          editor.getSession().on("changeAnnotation", function() {
-             const valid = (editor.getSession().getAnnotations()==0);
-             if (valid != this.jsonValid) {
-                 _this.$emit('valid', valid);
-                 _this.jsonValid = valid;
-             }
-          });
-      }
+    handleInit(editor) {
+      const _this = this;
+      editor.getSession().on("changeAnnotation", function () {
+        const valid = (editor.getSession().getAnnotations() == 0);
+        if (valid != this.jsonValid) {
+          _this.$emit('valid', valid);
+          _this.jsonValid = valid;
+        }
+      });
+    }
   }
 };
 </script>

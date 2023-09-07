@@ -15,45 +15,52 @@ export default {
       }
     },
     // see https://github.com/EricSmekens/jsep/issues/73
-    stringifyAst(node) {
-      if (node.type === 'BinaryExpression' || node.type === 'LogicalExpression') {
-        return '(' + this.stringifyAst(node.left) + ' ' + node.operator + ' ' + this.stringifyAst(node.right) + ')'
+    // (altered so that brackets arent added at depth 0)
+    // and null is handled
+    stringifyAst(node, depth) {
+      function bracketify(t, d) {
+        return d==undefined || d==0 ? t : "(" + t + ")"; 
       }
-
-      if (node.type === 'UnaryExpression') {
-        return node.operator + this.stringifyAst(node.argument)
-      }
-
-      if (node.type === 'MemberExpression') {
-        return this.stringifyAst(node.object) + '[' + this.stringifyAst(node.property) + ']'
-      }
-
-      if (node.type === 'Identifier') {
-        return node.name
-      }
-
-      if (node.type === 'Literal') {
-        if (typeof node.value === 'string') {
-          return '"' + node.value + '"'
+      if (node) {
+        if (node.type === 'BinaryExpression' || node.type === 'LogicalExpression') {
+          return bracketify(this.stringifyAst(node.left, depth+1) + ' ' + node.operator + ' ' + this.stringifyAst(node.right, depth+1))
         }
-
-        return '' + node.value
-      }
-
-      if (node.type === 'CallExpression') {
-        return this.stringifyAst(node.callee) + '(' + node.arguments.map(this.stringifyAst).join(', ') + ')'
-      }
-
-      if (node.type === 'ArrayExpression') {
-        return '[' + node.elements.map(this.stringifyAst).join(', ') + ']'
-      }
-
-      if (node.type === 'Compound') {
-        return node.body.map(e => this.stringifyAst(e)).join(' ')
-      }
-
-      if (node.type === 'ConditionalExpression') {
-        return this.stringifyAst(node.test) + ' ? ' + this.stringifyAst(node.consequent) + ' : ' + this.stringifyAst(node.alternate)
+  
+        if (node.type === 'UnaryExpression') {
+          return node.operator + this.stringifyAst(node.argument, depth+1)
+        }
+  
+        if (node.type === 'MemberExpression') {
+          return this.stringifyAst(node.object, depth+1) + '[' + this.stringifyAst(node.property, depth+1) + ']'
+        }
+  
+        if (node.type === 'Identifier') {
+          return node.name
+        }
+  
+        if (node.type === 'Literal') {
+          if (typeof node.value === 'string') {
+            return '"' + node.value + '"'
+          } else {
+            return '' + node.value
+          }
+        }
+  
+        if (node.type === 'CallExpression') {
+          return this.stringifyAst(node.callee, depth+1) + '(' + node.arguments.map(this.stringifyAst, depth+1).join(', ') + ')'
+        }
+  
+        if (node.type === 'ArrayExpression') {
+          return '[' + node.elements.map(this.stringifyAst).join(', ') + ']'
+        }
+  
+        if (node.type === 'Compound') {
+          return Object.keys(node.body).map(e => this.stringifyAst(node.body[e], depth+1)).join(' ')
+        }
+  
+        if (node.type === 'ConditionalExpression') {
+          return bracketify(this.stringifyAst(node.test, depth+1) + ' ? ' + this.stringifyAst(node.consequent, depth+1) + ' : ' + this.stringifyAst(node.alternate, depth+1))
+        }  
       }
       return '';
     }
