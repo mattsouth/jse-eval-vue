@@ -16,7 +16,7 @@ TODO: separate out the modal component?
         data-bs-trigger="focus"
         data-bs-toggle="popover"
         data-bs-placement="top"
-        data-bs-content="Click a variable name to add sample values">
+        data-bs-content="Click a variable name to add sample values.  Click a value to restrict the set of presented values (when the number of combinations is large).">
         <img src="/question-circle.svg" alt="help" width="16" height="16" />
       </a>
     </span>
