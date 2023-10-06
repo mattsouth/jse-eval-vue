@@ -3,7 +3,7 @@ Provides a truth table that enumerates all combinations of context variable valu
 </docs>
 
 <template>
-  <div class="fs-4" :class="{'opacity-50': disabled}">Evaluation <span v-if="total>1" class="fs-6">(n={{total}})</span></div>
+  <div class="fs-4" :class="{'opacity-50': disabled}">Evaluation <span v-if="total>1 && filtered.length>1" class="fs-6">(n={{total}})</span></div>
   <table class="table table-sm" :class="{'opacity-50': disabled}">
     <thead>
       <tr>
@@ -81,21 +81,23 @@ export default {
     total() {
       return this.context.reduce((acc, val) => this.values(val).length * acc, 1);
     },
+    filtered() {
+      // a view of context that excludes legacy variables
+      return this.context.filter((val) => this.variables.includes(val.name));
+    },
     combinations() {
       const r = [];
-      // a view of context that excludes legacy variables
-      const filtered = this.context.filter((val) => this.variables.includes(val.name));
       const dds = this.variables;
       const helper = (obj, i) => {
-        for (var j = 0, l = this.values(filtered[i]).length; j < l; j++) {
+        for (var j = 0, l = this.values(this.filtered[i]).length; j < l; j++) {
           var o = { ...obj }; // clone obj
-          o[dds[i]] = this.values(filtered[i])[j];
-          if (i == filtered.length - 1) r.push(o);
+          o[dds[i]] = this.values(this.filtered[i])[j];
+          if (i == this.filtered.length - 1) r.push(o);
           else helper(o, i + 1);
         }
       }
       // form an array of possible combination values of context.
-      if (filtered.length > 0) {
+      if (this.filtered.length > 0) {
         helper({}, 0);
         // evaluate expression values for that array
         for (let comb of r) {
