@@ -1,6 +1,6 @@
 <docs>
   A compact visualisation of a javascript expression
-  
+
   TODO: work out how to add top padding to BinaryExpression when it wraps
   TODO: work out how to size the first column as needed and put everything else to the right (for conditionals).
 </docs>
@@ -26,7 +26,8 @@
     <expr-viewer :value="value.right"/>
   </div>
   <div v-if="value.type=='UnaryExpression'" class="border d-inline-block p-1" :class="{'opacity-50': disabled, 'border-warning': !valid}">
-    <span class="badge bg-secondary mx-2">{{ mapOperator(value.operator) }}</span>
+    <span v-if="value.operator !== '-'" class="badge bg-secondary mx-2">{{ mapOperator(value.operator) }}</span>
+    <span v-else>{{value.operator}}</span>
     <expr-viewer :value="value.argument"/>
   </div>
   <template v-if="value.type=='ArrayExpression'" :class="{'opacity-50': disabled}">
@@ -39,6 +40,15 @@
   </template>
   <template v-if="value.type=='Identifier'" :class="{'opacity-50': disabled}"><em>{{ value.name }}</em></template>
   <template v-if="value.type=='Literal'" :class="{'opacity-50': disabled}">{{ value.raw }}</template>
+  <template v-if="value.type=='CallExpression'" :class="{'opacity-50': disabled}">
+    <span class="fst-italic">{{ value.callee.name }}</span>
+    (
+    <template  v-for="key of Object.keys(value.arguments)">
+      <expr-viewer :value="value.arguments[key]" />
+      <span v-if="key < (value.arguments.length-1)">, </span>
+    </template>
+    )
+  </template>
 </template>
 
 <script>
