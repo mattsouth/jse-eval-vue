@@ -1,9 +1,6 @@
 <template>
   <v-block :depth="depth">
-    <v-row
-      @delete="deleteRow"
-      @delete-sub="deleteSub"
-      @update-sub="updateSub" >
+    <v-row @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
       <span class="badge bg-secondary">
         {{ mapOperator(value.operator) }}
       </span>
@@ -15,7 +12,8 @@
         :depth="this.depth + 1"
         @delete="deleteRow"
         @delete-sub="deleteSub"
-        @update-sub="updateSub" />
+        @update-sub="updateSub"
+      />
     </div>
   </v-block>
 </template>
@@ -31,8 +29,8 @@ export default {
   },
   methods: {
     mapOperator(op) {
-      return op == "!" ? "NOT" : op;
-    },
+      return op == '!' ? 'NOT' : op
+    }
   }
 }
 </script>

@@ -5,10 +5,11 @@ TODO: separate out the modal component?
 </docs>
 
 <template>
-  <div class="fs-4 mt-2" :class="{'opacity-50': disabled}">
+  <div class="fs-4 mt-2" :class="{ 'opacity-50': disabled }">
     Context
     <span class="float-end">
-      <a tabindex="0"
+      <a
+        tabindex="0"
         role="button"
         ref="popoverHelp"
         class="btn btn-link btn-sm"
@@ -16,12 +17,13 @@ TODO: separate out the modal component?
         data-bs-trigger="focus"
         data-bs-toggle="popover"
         data-bs-placement="top"
-        data-bs-content="Click a variable name to add sample values.  Click a value to restrict the set of presented values (when the number of combinations is large).">
+        data-bs-content="Click a variable name to add sample values.  Click a value to restrict the set of presented values (when the number of combinations is large)."
+      >
         <img src="/question-circle.svg" alt="help" width="16" height="16" />
       </a>
     </span>
   </div>
-  <table class="table" :class="{'opacity-50': disabled}">
+  <table class="table" :class="{ 'opacity-50': disabled }">
     <thead>
       <tr>
         <th>variable</th>
@@ -33,22 +35,21 @@ TODO: separate out the modal component?
         v-for="dd in context"
         v-bind:key="dd"
         :class="{
-          'text-muted text-decoration-line-through': !variables.includes(
-            dd.name
-          ),
+          'text-muted text-decoration-line-through': !variables.includes(dd.name)
         }"
       >
         <td @click="openModal(dd)" class="clickable">{{ dd.name }}</td>
         <td>
-          <span 
+          <span
             class="badge rounded-pill me-2 clickable"
             :class="{
-              'text-bg-info': (dd.selected && dd.selected.length==0),
-              'text-bg-dark': (dd.selected && dd.selected.length>0 && dd.selected.includes(value)),
-              'text-bg-light': (dd.selected && dd.selected.length>0 && !dd.selected.includes(value))
+              'text-bg-info': dd.selected && dd.selected.length == 0,
+              'text-bg-dark': dd.selected && dd.selected.length > 0 && dd.selected.includes(value),
+              'text-bg-light': dd.selected && dd.selected.length > 0 && !dd.selected.includes(value)
             }"
             v-for="value of dd.values"
-            @click="$emit('toggle-value', {name: dd.name, value: value})">
+            @click="$emit('toggle-value', { name: dd.name, value: value })"
+          >
             {{ renderValue(value) }}
           </span>
           <button
@@ -136,29 +137,29 @@ TODO: separate out the modal component?
 </template>
 
 <script>
-import { Modal, Popover } from "bootstrap";
-import Shared from "./shared";
+import { Modal, Popover } from 'bootstrap'
+import Shared from './shared'
 
-let varModal = null;
+let varModal = null
 
 export default {
   props: {
     context: {
       type: Array,
-      required: true,
+      required: true
     },
     variables: {
       type: Array,
-      required: true,
+      required: true
     },
     disabled: {
       type: Boolean
     }
   },
   mixins: [Shared],
-  emits: ["update", "toggle-value"],
+  emits: ['update', 'toggle-value'],
   mounted() {
-    varModal = new Modal(this.$refs.variableModal);
+    varModal = new Modal(this.$refs.variableModal)
     new Popover(this.$refs.popoverHelp)
   },
   data() {
@@ -168,91 +169,90 @@ export default {
         variableIdx: null,
         valueIdx: -1,
         valid: true,
-        value: null,
-      },
-    };
+        value: null
+      }
+    }
   },
   computed: {
     emptyValue() {
       return (
         this.modalState.value == null ||
         (this.modalState.value.trim && this.modalState.value.trim().length == 0)
-      );
-    },
+      )
+    }
   },
   methods: {
     renderValues(vals) {
-      return vals.map((val) => this.renderValue(val)).join(", ");
+      return vals.map((val) => this.renderValue(val)).join(', ')
     },
     removeVar(dd) {
-      const clone = [...this.context];
-      clone.splice(this.context.indexOf(dd), 1);
-      this.$emit("update", clone);
+      const clone = [...this.context]
+      clone.splice(this.context.indexOf(dd), 1)
+      this.$emit('update', clone)
     },
     openModal(dd) {
-      this.current = dd;
+      this.current = dd
       this.modalState = {
         variableIdx: this.context.indexOf(dd),
         valueIdx: -1,
-        valid: true,
-      };
-      varModal.show();
+        valid: true
+      }
+      varModal.show()
     },
     selectContextValue(idx) {
       if (this.modalState.valueIdx == idx) {
-        this.modalState.valueIdx = -1;
-        this.modalState.value = null;
+        this.modalState.valueIdx = -1
+        this.modalState.value = null
       } else {
-        this.modalState.valueIdx = idx;
+        this.modalState.valueIdx = idx
         this.modalState.value = this.renderValue(
           this.context[this.modalState.variableIdx].values[idx]
-        );
+        )
       }
     },
     enterUpdateContextValue(evt) {
-      this.updateContextValue(evt.target.value);
+      this.updateContextValue(evt.target.value)
     },
     buttonUpdateContextValue() {
-      this.updateContextValue(this.modalState.value);
+      this.updateContextValue(this.modalState.value)
     },
     updateContextValue(rawval) {
       try {
-        const value = JSON.parse(rawval);
-        this.modalState.valid = true;
-        const clone = [...this.context];
+        const value = JSON.parse(rawval)
+        this.modalState.valid = true
+        const clone = [...this.context]
         if (this.modalState.valueIdx == -1) {
-          clone[this.modalState.variableIdx].values.push(value);
+          clone[this.modalState.variableIdx].values.push(value)
         } else {
-          clone[this.modalState.variableIdx].values[this.modalState.valueIdx] =
-            value;
+          clone[this.modalState.variableIdx].values[this.modalState.valueIdx] = value
         }
-        this.$emit("update", clone);
-        this.modalState.valueIdx = -1;
-        this.$refs["editedValue"].value = null; // needed for enter update
-        this.modalState.value = null; // needed for button update
+        this.$emit('update', clone)
+        this.modalState.valueIdx = -1
+        this.$refs['editedValue'].value = null // needed for enter update
+        this.modalState.value = null // needed for button update
       } catch (e) {
-        this.modalState.valid = false;
-        console.info("invalid variable value: ", rawval, "\n", e.message);
+        this.modalState.valid = false
+        console.info('invalid variable value: ', rawval, '\n', e.message)
       }
     },
     removeValue(idx) {
-      const clone = [...this.context];
-      clone[this.modalState.variableIdx].values.splice(idx, 1);
-      this.$emit("update", clone);
+      const clone = [...this.context]
+      clone[this.modalState.variableIdx].values.splice(idx, 1)
+      this.$emit('update', clone)
       if (this.modalState.valueIdx == idx) {
-        this.modalState.valueIdx = -1;
-        this.modalState.valid = true;
+        this.modalState.valueIdx = -1
+        this.modalState.valid = true
       }
     },
     updateValue(evt) {
-      this.modalState.value = evt.target.value;
+      this.modalState.value = evt.target.value
     },
     cancelUpdate() {
-      this.modalState.valueIdx = -1;
-      this.modalState.value = null;
-    },
-  },
-};
+      this.modalState.valueIdx = -1
+      this.modalState.value = null
+    }
+  }
+}
 </script>
 
 <style scoped>

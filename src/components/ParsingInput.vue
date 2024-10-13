@@ -4,7 +4,15 @@
 </docs>
 
 <template>
-  <input class="form-control" type="text" v-model="text" :placeholder="placeholder" :disabled="disabled" @blur="updateModel" @keyup.enter="updateModel" />
+  <input
+    class="form-control"
+    type="text"
+    v-model="text"
+    :placeholder="placeholder"
+    :disabled="disabled"
+    @blur="updateModel"
+    @keyup.enter="updateModel"
+  />
   <div class="text-danger text-small mt-1" v-if="!valid">{{ validation }}</div>
 </template>
 
@@ -36,40 +44,40 @@ export default {
   computed: {
     text: {
       get() {
-        return this.estext;
+        return this.estext
       },
       set(text) {
         try {
-          const tree = parse(text);
+          const tree = parse(text)
           // parsed successfully
           if (!this.valid) {
-            this.valid = true;
-            this.validation = null;
-            this.$emit('valid', true);
+            this.valid = true
+            this.validation = null
+            this.$emit('valid', true)
           }
-          this.estree = tree;
+          this.estree = tree
         } catch (e) {
           if (this.valid) {
-            this.valid = false;
-            this.$emit('valid', false);
+            this.valid = false
+            this.$emit('valid', false)
           }
-          this.validation = e.message;
+          this.validation = e.message
         }
-        this.estext = text;
+        this.estext = text
       }
-    },
+    }
   },
   methods: {
     updateModel() {
       if (this.valid) {
-        this.$emit('update:modelValue', this.estree);
+        this.$emit('update:modelValue', this.estree)
       }
-    },
+    }
   },
   watch: {
     modelValue(newval) {
-      this.estree = newval;
-      this.estext = this.stringifyAst(newval);
+      this.estree = newval
+      this.estext = this.stringifyAst(newval)
     }
   }
 }

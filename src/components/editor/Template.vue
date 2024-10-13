@@ -5,9 +5,9 @@
 </template>
 
 <script>
-  export default {
-    name: 'v-template',
-  }
+export default {
+  name: 'v-template'
+}
 </script>
 
 <style scoped>

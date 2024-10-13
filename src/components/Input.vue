@@ -7,7 +7,7 @@
 </template>
 
 <script>
-let timer;
+let timer
 
 export default {
   name: 'v-input',
@@ -19,7 +19,7 @@ export default {
     },
     type: {
       type: String,
-      default: "text"
+      default: 'text'
     },
     placeholder: String,
     disabled: Boolean
@@ -28,15 +28,15 @@ export default {
   computed: {
     text: {
       get() {
-        return this.modelValue;
+        return this.modelValue
       },
       set(value) {
-        clearTimeout(timer); // debounced
+        clearTimeout(timer) // debounced
         timer = setTimeout(() => {
           this.$emit('update:modelValue', value)
-        }, this.timeout);
+        }, this.timeout)
       }
-    }    
+    }
   }
 }
 </script>

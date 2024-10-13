@@ -1,6 +1,5 @@
 <template>
-  <div class="border-start border-2 ps-2 mb-1 text-start"
-    :class="'border-' + color(this.depth)">
+  <div class="border-start border-2 ps-2 mb-1 text-start" :class="'border-' + color(this.depth)">
     <slot></slot>
   </div>
 </template>
@@ -16,13 +15,13 @@ export default {
   },
   data() {
     return {
-      colors: ['primary', 'info', 'success', 'warning', 'danger'],      
+      colors: ['primary', 'info', 'success', 'warning', 'danger']
     }
   },
   methods: {
     color(idx) {
-      return this.colors[idx % this.colors.length];
-    },
+      return this.colors[idx % this.colors.length]
+    }
   }
 }
 </script>

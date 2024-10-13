@@ -1,15 +1,12 @@
 <template>
-  <v-empty 
-    v-if="!value.type"
-    v-model="value"
-    :depth="depth"
-    :att="att" />
-  <component 
+  <v-empty v-if="!value.type" v-model="value" :depth="depth" :att="att" />
+  <component
     v-else
     v-bind:is="getComponent(value.type)"
     v-model="value"
     :depth="depth"
-    :att="att" /> 
+    :att="att"
+  />
 </template>
 
 <script>
@@ -31,10 +28,10 @@ export default {
     'v-conditional': Conditional,
     'v-identifier': Identifier,
     'v-literal': Literal
-  }, 
+  },
   methods: {
     getComponent(type) {
-      switch(type) {
+      switch (type) {
         case 'UnaryExpression':
           return 'v-unary'
         case 'BinaryExpression':
@@ -47,6 +44,6 @@ export default {
           return 'v-literal'
       }
     }
-  }    
+  }
 }
 </script>

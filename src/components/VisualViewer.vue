@@ -6,7 +6,11 @@
 </docs>
 
 <template>
-  <div v-if="value.type=='ConditionalExpression'" class="border p-1" :class="{'opacity-50': disabled, 'border-warning': !valid}">
+  <div
+    v-if="value.type == 'ConditionalExpression'"
+    class="border p-1"
+    :class="{ 'opacity-50': disabled, 'border-warning': !valid }"
+  >
     <div class="row g-2">
       <div class="col-2 text-end"><span class="badge bg-secondary">IF</span></div>
       <div class="col text-start"><expr-viewer :value="value.test" /></div>
@@ -20,32 +24,46 @@
       <div class="col text-start"><expr-viewer :value="value.alternate" /></div>
     </div>
   </div>
-  <div v-if="value.type=='BinaryExpression'" class="border d-inline-block p-1" :class="{'opacity-50': disabled, 'border-warning': !valid}">
-    <expr-viewer :value="value.left"/>
+  <div
+    v-if="value.type == 'BinaryExpression'"
+    class="border d-inline-block p-1"
+    :class="{ 'opacity-50': disabled, 'border-warning': !valid }"
+  >
+    <expr-viewer :value="value.left" />
     <span class="badge bg-secondary mx-2">{{ mapOperator(value.operator) }}</span>
-    <expr-viewer :value="value.right"/>
+    <expr-viewer :value="value.right" />
   </div>
-  <div v-if="value.type=='UnaryExpression'" class="border d-inline-block p-1" :class="{'opacity-50': disabled, 'border-warning': !valid}">
-    <span v-if="value.operator !== '-'" class="badge bg-secondary mx-2">{{ mapOperator(value.operator) }}</span>
-    <span v-else>{{value.operator}}</span>
-    <expr-viewer :value="value.argument"/>
+  <div
+    v-if="value.type == 'UnaryExpression'"
+    class="border d-inline-block p-1"
+    :class="{ 'opacity-50': disabled, 'border-warning': !valid }"
+  >
+    <span v-if="value.operator !== '-'" class="badge bg-secondary mx-2">{{
+      mapOperator(value.operator)
+    }}</span>
+    <span v-else>{{ value.operator }}</span>
+    <expr-viewer :value="value.argument" />
   </div>
-  <template v-if="value.type=='ArrayExpression'" :class="{'opacity-50': disabled}">
+  <template v-if="value.type == 'ArrayExpression'" :class="{ 'opacity-50': disabled }">
     [
-    <template  v-for="key of Object.keys(value.elements)">
+    <template v-for="key of Object.keys(value.elements)">
       <expr-viewer :value="value.elements[key]" />
-      <span v-if="key < (value.elements.length-1)">, </span>
+      <span v-if="key < value.elements.length - 1">, </span>
     </template>
     ]
   </template>
-  <template v-if="value.type=='Identifier'" :class="{'opacity-50': disabled}"><em>{{ value.name }}</em></template>
-  <template v-if="value.type=='Literal'" :class="{'opacity-50': disabled}">{{ value.raw }}</template>
-  <template v-if="value.type=='CallExpression'" :class="{'opacity-50': disabled}">
+  <template v-if="value.type == 'Identifier'" :class="{ 'opacity-50': disabled }"
+    ><em>{{ value.name }}</em></template
+  >
+  <template v-if="value.type == 'Literal'" :class="{ 'opacity-50': disabled }">{{
+    value.raw
+  }}</template>
+  <template v-if="value.type == 'CallExpression'" :class="{ 'opacity-50': disabled }">
     <span class="fst-italic">{{ value.callee.name }}</span>
     (
-    <template  v-for="key of Object.keys(value.arguments)">
+    <template v-for="key of Object.keys(value.arguments)">
       <expr-viewer :value="value.arguments[key]" />
-      <span v-if="key < (value.arguments.length-1)">, </span>
+      <span v-if="key < value.arguments.length - 1">, </span>
     </template>
     )
   </template>
@@ -63,22 +81,41 @@ export default {
       if (this.value.type) {
         switch (this.value.type) {
           case 'ConditionalExpression':
-            return Object.keys(this.value.test).includes('type') && Object.keys(this.value.consequent).includes('type') && Object.keys(this.value.alternate).includes('type');
+            return (
+              Object.keys(this.value.test).includes('type') &&
+              Object.keys(this.value.consequent).includes('type') &&
+              Object.keys(this.value.alternate).includes('type')
+            )
           case 'BinaryExpression':
-            return Object.keys(this.value.left).includes('type') && Object.keys(this.value.right).includes('type');
+            return (
+              Object.keys(this.value.left).includes('type') &&
+              Object.keys(this.value.right).includes('type')
+            )
           case 'UnaryExpression':
-            return Object.keys(this.value.argument).includes('type');
+            return Object.keys(this.value.argument).includes('type')
           default:
             return true
         }
       } else {
-        return false;
+        return false
       }
     }
   },
   methods: {
     mapOperator(op) {
-      return op == "!" ? "NOT" : (op == "||" ? "OR" : (op == "&&" ? "AND" : (op == "==" ? "=" : (op == ">=" ? "≥" : (op == "<=" ? "≤" : op)))));
+      return op == '!'
+        ? 'NOT'
+        : op == '||'
+          ? 'OR'
+          : op == '&&'
+            ? 'AND'
+            : op == '=='
+              ? '='
+              : op == '>='
+                ? '≥'
+                : op == '<='
+                  ? '≤'
+                  : op
     }
   }
 }

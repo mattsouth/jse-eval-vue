@@ -18,34 +18,34 @@ export default {
   computed: {
     value: {
       get() {
-        return (this.att ? this.modelValue[this.att] : this.modelValue)
+        return this.att ? this.modelValue[this.att] : this.modelValue
       },
       set(value) {
         console.log('computed.value.set', value)
         this.$emit('update:model-value', value)
       }
-    },
+    }
   },
   methods: {
     isLogical(op) {
-      return op == "&&" || op == "||" || op == "!";
+      return op == '&&' || op == '||' || op == '!'
     },
     updateSub(evt) {
-      let result = this.modelValue;
-      result[evt.att] = evt.value;
-      this.value = result;
+      let result = this.modelValue
+      result[evt.att] = evt.value
+      this.value = result
     },
     deleteRow() {
-      if (this.depth>0) {
-        this.$emit('delete-sub', this.att);
+      if (this.depth > 0) {
+        this.$emit('delete-sub', this.att)
       } else {
-        this.value={}
+        this.value = {}
       }
     },
     deleteSub(evt) {
-      let result = this.modelValue;
-      result[evt.att] = {};
-      this.value = result;
+      let result = this.modelValue
+      result[evt.att] = {}
+      this.value = result
     }
   }
 }
