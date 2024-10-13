@@ -155,7 +155,7 @@ export default {
     }
   },
   watch: {
-    variables(newval, oldval) {
+    variables(newval) {
       if (!newval.includes(this.sort.variable)) {
         this.sort.variable = newval[0]
         this.sort.ascending = true

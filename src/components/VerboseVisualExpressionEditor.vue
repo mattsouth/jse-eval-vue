@@ -6,7 +6,7 @@
 </docs>
 
 <template>
-  <template v-if="!modelValue.type" :class="{ 'opacity-50': disabled }">
+  <template v-if="!modelValue.type">
     <!-- a menu of expression templates -->
     <v-row hide-delete>
       <v-template
@@ -197,7 +197,7 @@
           &plus;
         </button>
       </v-row>
-      <template v-for="key of Object.keys(modelValue.elements)">
+      <template v-for="key of Object.keys(modelValue.elements)" :key="key">
         <v-expr-viewer
           v-model="modelValue.elements[key]"
           att="elements"
@@ -215,7 +215,7 @@
       <v-row @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
         <span class="fst-italic badge bg-secondary">{{ modelValue.callee.name }}()</span>
       </v-row>
-      <template v-for="key of Object.keys(modelValue.arguments)">
+      <template v-for="key of Object.keys(modelValue.arguments)" :key="key">
         <v-expr-viewer
           v-model="modelValue.arguments[key]"
           att="arguments"
@@ -272,7 +272,7 @@
 <script>
 import Row from './Row.vue'
 import Block from './Block.vue'
-import Template from './Template.vue'
+import ExpressionTemplate from './ExpressionTemplate.vue'
 import ParsingInput from './ParsingInput.vue'
 
 export default {
@@ -280,7 +280,7 @@ export default {
   components: {
     'v-row': Row,
     'v-block': Block,
-    'v-template': Template,
+    'v-template': ExpressionTemplate,
     'v-parsing-input': ParsingInput
   },
   props: {

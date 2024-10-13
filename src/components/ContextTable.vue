@@ -47,7 +47,8 @@ TODO: separate out the modal component?
               'text-bg-dark': dd.selected && dd.selected.length > 0 && dd.selected.includes(value),
               'text-bg-light': dd.selected && dd.selected.length > 0 && !dd.selected.includes(value)
             }"
-            v-for="value of dd.values"
+            v-for="(value, idx) in dd.values"
+            v-bind:key="idx"
             @click="$emit('toggle-value', { name: dd.name, value: value })"
           >
             {{ renderValue(value) }}

@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import Input from './Input.vue'
 import Shared from './shared'
 import { parse } from 'jse-eval'
 
@@ -30,9 +29,6 @@ export default {
   },
   mixins: [Shared],
   emits: ['valid', 'update:modelValue'],
-  components: {
-    'v-input': Input
-  },
   data() {
     return {
       estree: this.modelValue,

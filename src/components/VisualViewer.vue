@@ -44,9 +44,9 @@
     <span v-else>{{ value.operator }}</span>
     <expr-viewer :value="value.argument" />
   </div>
-  <template v-if="value.type == 'ArrayExpression'" :class="{ 'opacity-50': disabled }">
+  <template v-if="value.type == 'ArrayExpression'">
     [
-    <template v-for="key of Object.keys(value.elements)">
+    <template v-for="key of Object.keys(value.elements)" :key="key">
       <expr-viewer :value="value.elements[key]" />
       <span v-if="key < value.elements.length - 1">, </span>
     </template>
@@ -61,7 +61,7 @@
   <template v-if="value.type == 'CallExpression'" :class="{ 'opacity-50': disabled }">
     <span class="fst-italic">{{ value.callee.name }}</span>
     (
-    <template v-for="key of Object.keys(value.arguments)">
+    <template v-for="key of Object.keys(value.arguments)" :key="key">
       <expr-viewer :value="value.arguments[key]" />
       <span v-if="key < value.arguments.length - 1">, </span>
     </template>
