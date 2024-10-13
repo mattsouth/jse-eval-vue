@@ -80,20 +80,22 @@
     </template>
   </template>
   <template v-if="modelValue.type == 'ArrayExpression'">
-    <v-row @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
-      <span class="badge bg-secondary">[]</span>
-      <button
-        type="button"
-        href="#"
-        class="btn btn-light btn-sm opacity-50"
-        style="--bs-btn-padding-y: 0.1rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
-        @click="addArrayElement">
-        &plus;
-      </button>
-    </v-row>
-    <template  v-for="key of Object.keys(modelValue.elements)">
-      <v-expr-viewer v-model="modelValue.elements[key]" att="elements" :idx="key" :depth="this.depth + 1" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub"/>
-    </template>
+    <v-block :depth="depth" :disabled="disabled">
+      <v-row @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
+        <span class="badge bg-secondary">[]</span>
+        <button
+          type="button"
+          href="#"
+          class="btn btn-light btn-sm opacity-50"
+          style="--bs-btn-padding-y: 0.1rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;"
+          @click="addArrayElement">
+          &plus;
+        </button>
+      </v-row>
+      <template  v-for="key of Object.keys(modelValue.elements)">
+        <v-expr-viewer v-model="modelValue.elements[key]" att="elements" :idx="key" :depth="this.depth + 1" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub"/>
+      </template>
+    </v-block>
   </template> 
   <template v-if="modelValue.type == 'CallExpression'">
     <v-block :depth="depth" :disabled="disabled">
@@ -115,7 +117,7 @@
       </div>
     </v-block>
   </template>
-  <v-row v-if="modelValue.type == 'Identifier'" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub"> 
+  <v-row v-if="modelValue.type == 'Identifier'" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
     <template v-if="modelValue.name !== 'undefined'">
       <span class="badge bg-info"><em>{{ modelValue.name }}</em></span>
     </template>
@@ -123,7 +125,7 @@
   </v-row>
   <v-row v-if="modelValue.type=='Literal'" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">{{modelValue.raw}}</v-row>
 </template>
-  
+
 <script>
 import Row from './Row.vue'
 import Block from './Block.vue'
