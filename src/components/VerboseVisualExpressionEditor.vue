@@ -95,6 +95,16 @@
       <v-expr-viewer v-model="modelValue.elements[key]" att="elements" :idx="key" :depth="this.depth + 1" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub"/>
     </template>
   </template> 
+  <template v-if="modelValue.type == 'CallExpression'">
+    <v-block :depth="depth" :disabled="disabled">
+      <v-row @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
+        <span class="fst-italic badge bg-secondary">{{modelValue.callee.name}}()</span>
+      </v-row>
+      <template  v-for="key of Object.keys(modelValue.arguments)">
+        <v-expr-viewer v-model="modelValue.arguments[key]" att="arguments" :idx="key" :depth="this.depth + 1" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub"/>
+      </template>
+    </v-block>
+  </template>
   <template v-if="modelValue.type == 'UnaryExpression'">
     <v-block :depth="depth" :disabled="disabled">
       <v-row @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
