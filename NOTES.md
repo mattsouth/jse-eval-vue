@@ -1,12 +1,8 @@
 # JSEP AST
 
-Some notes on the abstract syntax tree (AST) produced by [jsep](https://github.com/EricSmekens/jsep).
+Some notes on the abstract syntax tree (AST) produced by [jsep](https://github.com/EricSmekens/jsep).  JSEP's AST is a subset of [ESTree](https://github.com/estree/estree) which covers the whole of javascript, not just expressions.
 
-The [typings](https://github.com/EricSmekens/jsep/blob/master/typings/tsd.d.ts) are also useful.
-
-This is related to [ESTree](https://github.com/estree/estree) but Im not sure how exactly.
-
-The [Annotated Source](https://ericsmekens.github.io/jsep/annotated_source/jsep.html) may be a useful reference, though it's based on an old version and talks about ``a && b`` being a LogicalExpression and not a BinaryExpression and that's not what I observe in practice.
+The [Annotated Source](https://ericsmekens.github.io/jsep/annotated_source/jsep.html) may be a useful reference, though it's based on an old version and talks about ``a && b`` being a LogicalExpression and not a BinaryExpression and that's not what I observe in practice.  The [typings](https://github.com/EricSmekens/jsep/blob/master/typings/tsd.d.ts) are also useful.
 
 ## Types
 
@@ -25,7 +21,7 @@ Each node in the AST has a type, these are the available types:
 
 see [jsep.js:895](https://github.com/EricSmekens/jsep/blob/0497757d90b81b172303ac8233548fbe5e4216aa/src/jsep.js#L895)
 
-Note that the ternary plugin supports the 'ConditionalExpression' type and is built-in by default.
+Note that the ternary plugin supports the 'ConditionalExpression' type and is built-in by default so is listed here.
 
 ### Compound
 
@@ -107,6 +103,8 @@ or ``'test'``
   "raw": "'test'"
 }
 ```
+
+See also ``true``, ``false``, ``null`` and ``undefined``.
 
 ### ThisExpression
 
