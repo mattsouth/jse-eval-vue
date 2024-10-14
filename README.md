@@ -10,8 +10,8 @@ Demos:
 
 ## Requirements
 
-The main purpose of this tool is to show an evaluation table of all combinations of 
-sample variable values including null (which is easy to forget testing and can be counter intuitive). 
+The main purpose of this tool is to show an evaluation table of all combinations of
+sample variable values including null (which is easy to forget testing and can be counter intuitive).
 
 ### visual viewer
 
@@ -51,3 +51,7 @@ This work relies on the following libraries:
 * [vite](https://vitejs.dev/) (inc [eslint](https://eslint.org/) and [prettier](https://prettier.io/))
 * [bootstrap](https://getbootstrap.com) (inc [icons](https://icons.getbootstrap.com/), [popperjs](https://popper.js.org/) and [sass](https://sass-lang.com/))
 * [execa](https://github.com/sindresorhus/execa) - for deployment
+
+## github pages
+
+To push to github pages, run ``node script/gh-pages-deploy.js`` from the root directory (assuming you have sufficient privileges)
