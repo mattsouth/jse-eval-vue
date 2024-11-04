@@ -22,5 +22,14 @@ export default defineConfig({
     alias: {
       '@': fileURLToPath(new URL('./src', import.meta.url))
     }
+  },
+  // see https://github.com/twbs/bootstrap/issues/40962
+  // TODO: check that this issue is resolved in bootstrap 5.4 when its released
+  css: {
+    preprocessorOptions: {
+      scss: {
+        silenceDeprecations: ['mixed-decls', 'color-functions', 'global-builtin', 'import', 'legacy-js-api']
+      },
+    }
   }
 })
