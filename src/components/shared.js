@@ -14,11 +14,12 @@ export default {
         }
       }
     },
+    // render estree on a single line
     // see https://github.com/EricSmekens/jsep/issues/73
     // (altered so that brackets arent added at depth 0)
     // and null is handled
     stringifyAst(node, depth) {
-      function bracketify(t, d) {
+      const bracketify = (t, d) => {
         return d == undefined || d == 0 ? t : '(' + t + ')'
       }
       if (node) {
@@ -29,6 +30,7 @@ export default {
               node.operator +
               ' ' +
               this.stringifyAst(node.right, depth + 1)
+            , depth
           )
         }
 
@@ -82,7 +84,8 @@ export default {
               ' ? ' +
               this.stringifyAst(node.consequent, depth + 1) +
               ' : ' +
-              this.stringifyAst(node.alternate, depth + 1)
+              this.stringifyAst(node.alternate, depth + 1),
+            depth
           )
         }
       }
