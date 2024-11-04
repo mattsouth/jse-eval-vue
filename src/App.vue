@@ -82,12 +82,24 @@
                     >JSON</a
                   >
                 </li>
+                <li class="nav-item">
+                  <a
+                    class="nav-link"
+                    :class="{ active: tab == 3, disabled: !textValid }"
+                    :aria-current="tab == 3 ? true : null"
+                    href="#"
+                    @click="tab = 3"
+                    :aria-disabled="!textValid"
+                    >TEXT</a
+                  >
+                </li>
               </ul>
             </div>
             <div class="card-body">
               <json-viewer v-if="tab == 0" :value="cleanEstree" :disabled="!textValid" />
               <expr-viewer v-if="tab == 1" :value="estree" :disabled="!textValid" />
               <v-editor v-if="tab == 2" v-model="tree" :disabled="!textValid" />
+              <text-viewer v-if="tab == 3" :value="estree" :disabled="!textValid" />
             </div>
           </div>
           <context-table
@@ -155,6 +167,7 @@ import EvaluationTable from './components/EvaluationTable.vue'
 import JSONEditor from './components/JSONEditor.vue'
 import VisualViewer from './components/VisualViewer.vue'
 import VisualEditor from './components/VerboseVisualExpressionEditor.vue'
+import TextViewer from './components/TextViewer.vue'
 import { parse } from 'jse-eval'
 import Shared from './components/shared'
 import { Popover } from 'bootstrap'
@@ -179,7 +192,8 @@ export default {
     'evaluation-table': EvaluationTable,
     'json-viewer': JSONEditor,
     'expr-viewer': VisualViewer,
-    'v-editor': VisualEditor
+    'v-editor': VisualEditor,
+    'text-viewer': TextViewer
   },
   mounted() {
     // initial data can be passed in the querystring
@@ -266,8 +280,13 @@ export default {
                 helper(estree.elements[key], vals)
               }
               break
+            case 'CallExpression':
+              for (let key of Object.keys(estree.arguments)) {
+                helper(estree.arguments[key], vals)
+              }
+              break
             default:
-              console.log('unhandled', JSON.stringify(estree))
+              console.error('unhandled', JSON.stringify(estree))
           }
         }
         return vals
@@ -373,7 +392,8 @@ export default {
     }
   },
   watch: {
-    estree() {
+    estree(val) {
+      console.log('watch.estree called', val)
       this.updateVariables()
     }
   }
