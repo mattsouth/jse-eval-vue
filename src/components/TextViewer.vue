@@ -28,7 +28,10 @@ export default {
     // return expression over several lines to aid understanding
     // see https://github.com/EricSmekens/jsep/issues/73
     stringifyExpandedAst(node, depth, operator) {
-      function bracketify(t, d) {
+      function inlineBrackets(t, toggle) {
+        return toggle ? '(' + t + ')' : t
+      }
+      function blockBrackets(t, d) {
         return d == undefined || d == 0
           ? t
           : '(\n' +
@@ -42,7 +45,8 @@ export default {
         if (node.type === 'BinaryExpression' || node.type === 'LogicalExpression') {
           if (['&&', '||'].includes(node.operator)) {
             if (operator && operator == node.operator) {
-              // dont step in
+              // dont step in or show brackets when an operator is repeated
+              // maybe too opinionated and ignore / override user brackets !
               return (
                 this.stringifyExpandedAst(node.left, depth + 1, node.operator) +
                 ' ' +
@@ -51,7 +55,7 @@ export default {
                 this.stringifyExpandedAst(node.right, depth + 1, node.operator)
               )
             } else {
-              return bracketify(
+              return blockBrackets(
                 this.stringifyExpandedAst(node.left, depth + 1, node.operator) +
                   ' ' +
                   node.operator +
@@ -62,12 +66,13 @@ export default {
             }
           } else {
             // e.g. "!=",  "==", "===", ">=", "<="
-            return (
+            return inlineBrackets(
               this.stringifyExpandedAst(node.left, depth) +
               ' ' +
               node.operator +
               ' ' +
-              this.stringifyExpandedAst(node.right, depth)
+              this.stringifyExpandedAst(node.right, depth),
+              node.brackets
             )
           }
         }
@@ -121,7 +126,7 @@ export default {
         }
 
         if (node.type === 'ConditionalExpression') {
-          return bracketify(
+          return blockBrackets(
             this.stringifyExpandedAst(node.test, depth + 1) +
               ' ?\n' +
               this.stringifyExpandedAst(node.consequent, depth + 1) +
