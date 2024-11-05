@@ -52,13 +52,13 @@
     </template>
     ]
   </template>
-  <template v-if="value.type == 'Identifier'" :class="{ 'opacity-50': disabled }"
+  <template v-if="value.type == 'Identifier'"
     ><em>{{ value.name }}</em></template
   >
-  <template v-if="value.type == 'Literal'" :class="{ 'opacity-50': disabled }">{{
+  <template v-if="value.type == 'Literal'">{{
     value.raw
   }}</template>
-  <template v-if="value.type == 'CallExpression'" :class="{ 'opacity-50': disabled }">
+  <template v-if="value.type == 'CallExpression'">
     <span class="fst-italic">{{ value.callee.name }}</span>
     (
     <template v-for="key of Object.keys(value.arguments)" :key="key">
