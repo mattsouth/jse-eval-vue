@@ -19,6 +19,7 @@ export default {
     // (altered so that brackets arent added at depth 0)
     // and null is handled
     stringifyAst(node, depth) {
+      // t is a string, add brackets around it if d>0 (dont bracket the root expression)
       const bracketify = (t, d) => {
         return d == undefined || d == 0 ? t : '(' + t + ')'
       }

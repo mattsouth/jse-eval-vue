@@ -393,7 +393,7 @@ export default {
   },
   watch: {
     estree(val) {
-      console.log('watch.estree called', val)
+      // console.log('watch.estree called', val)
       this.updateVariables()
     }
   }
