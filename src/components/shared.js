@@ -30,8 +30,8 @@ export default {
               ' ' +
               node.operator +
               ' ' +
-              this.stringifyAst(node.right, depth + 1)
-            , depth
+              this.stringifyAst(node.right, depth + 1),
+            depth
           )
         }
 

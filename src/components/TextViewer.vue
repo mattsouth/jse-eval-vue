@@ -3,11 +3,10 @@
 </docs>
 
 <template>
-  <pre class="text-start">{{expandedText}}</pre>
+  <pre class="text-start">{{ expandedText }}</pre>
 </template>
 
 <script>
-
 import Shared from './shared'
 
 export default {
@@ -30,33 +29,46 @@ export default {
     // see https://github.com/EricSmekens/jsep/issues/73
     stringifyExpandedAst(node, depth, operator) {
       function bracketify(t, d) {
-        return d == undefined || d == 0 ? t : '(\n' + t.split('\n').map((line) => "".padStart(2) + line).join('\n') + '\n)'
+        return d == undefined || d == 0
+          ? t
+          : '(\n' +
+              t
+                .split('\n')
+                .map((line) => ''.padStart(2) + line)
+                .join('\n') +
+              '\n)'
       }
       if (node) {
         if (node.type === 'BinaryExpression' || node.type === 'LogicalExpression') {
           if (['&&', '||'].includes(node.operator)) {
             if (operator && operator == node.operator) {
               // dont step in
-              return this.stringifyExpandedAst(node.left, depth+1, node.operator) +
+              return (
+                this.stringifyExpandedAst(node.left, depth + 1, node.operator) +
                 ' ' +
                 node.operator +
                 '\n' +
-                this.stringifyExpandedAst(node.right, depth+1, node.operator)
+                this.stringifyExpandedAst(node.right, depth + 1, node.operator)
+              )
             } else {
               return bracketify(
-                this.stringifyExpandedAst(node.left, depth+1, node.operator) +
+                this.stringifyExpandedAst(node.left, depth + 1, node.operator) +
                   ' ' +
                   node.operator +
                   '\n' +
-                  this.stringifyExpandedAst(node.right, depth+1, node.operator)
-                , depth
+                  this.stringifyExpandedAst(node.right, depth + 1, node.operator),
+                depth
               )
             }
-          } else { // e.g. "!=",  "==", "===", ">=", "<="
-            return this.stringifyExpandedAst(node.left, depth) +
+          } else {
+            // e.g. "!=",  "==", "===", ">=", "<="
+            return (
+              this.stringifyExpandedAst(node.left, depth) +
               ' ' +
-              node.operator + ' ' +
+              node.operator +
+              ' ' +
               this.stringifyExpandedAst(node.right, depth)
+            )
           }
         }
 
@@ -95,7 +107,11 @@ export default {
         }
 
         if (node.type === 'ArrayExpression') {
-          return '[' + node.elements.map((arg) => this.stringifyExpandedAst(arg, depth + 1)).join(', ') + ']'
+          return (
+            '[' +
+            node.elements.map((arg) => this.stringifyExpandedAst(arg, depth + 1)).join(', ') +
+            ']'
+          )
         }
 
         if (node.type === 'Compound') {
@@ -110,8 +126,8 @@ export default {
               ' ?\n' +
               this.stringifyExpandedAst(node.consequent, depth + 1) +
               ' :\n' +
-              this.stringifyExpandedAst(node.alternate, depth + 1)
-            , depth
+              this.stringifyExpandedAst(node.alternate, depth + 1),
+            depth
           )
         }
       }
