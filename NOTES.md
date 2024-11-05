@@ -1,6 +1,6 @@
 # JSEP AST
 
-Some notes on the abstract syntax tree (AST) produced by [jsep](https://github.com/EricSmekens/jsep).  JSEP's AST is a subset of [ESTree](https://github.com/estree/estree) which covers the whole of javascript, not just expressions.
+Some notes on the abstract syntax tree (AST) produced by [jsep](https://github.com/EricSmekens/jsep).  jsep's AST is a subset of [ESTree](https://github.com/estree/estree) which covers the whole of javascript, not just expressions.
 
 The [Annotated Source](https://ericsmekens.github.io/jsep/annotated_source/jsep.html) may be a useful reference, though it's based on an old version and talks about ``a && b`` being a LogicalExpression and not a BinaryExpression and that's not what I observe in practice.  The [typings](https://github.com/EricSmekens/jsep/blob/master/typings/tsd.d.ts) are also useful.
 
@@ -323,4 +323,7 @@ In the following examples the brackets affect the structure of the tree.
 }
 ```
 
-I rely quite heavily on this useful issue: https://github.com/EricSmekens/jsep/issues/73 and the code itself.
+There are some relevant issues/discussions about this on github:
+
+* [A reverse of parse feature, nodes to expression](https://github.com/EricSmekens/jsep/issues/73)
+* [How to represent manually added "extra" parenthesis in AST tree](https://github.com/EricSmekens/jsep/issues/242)
