@@ -168,11 +168,29 @@ import JSONEditor from './components/JSONEditor.vue'
 import VisualViewer from './components/VisualViewer.vue'
 import VisualEditor from './components/VerboseVisualExpressionEditor.vue'
 import TextViewer from './components/TextViewer.vue'
-import { parse } from 'jse-eval'
+import { registerPlugin, parse } from 'jse-eval'
 import Shared from './components/shared'
 import { Popover } from 'bootstrap'
 
 let timeout
+
+// see https://github.com/EricSmekens/jsep#how-to-add-plugins
+// indicates in the AST when an expression term has enclosing brackets
+registerPlugin({
+  name: 'brackets',
+  init(jsep) {
+    let start = -1
+    jsep.hooks.add('gobble-token', function myPlugin(env) {
+      start = env.context.index
+    });
+    jsep.hooks.add('after-token', function myPlugin(env) {
+      let token = env.context.expr.substring(start, env.context.index)
+      if (env.node && token.trim()==')') {
+        env.node.brackets = true
+      }
+    });
+  }
+})
 
 export default {
   name: 'App',
