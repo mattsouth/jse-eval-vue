@@ -2,7 +2,9 @@
 export default {
   methods: {
     renderValue(val) {
-      if (val == null) {
+      if (val === undefined) {
+        return 'undefined'
+      } else if (val == null) {
         return 'null'
       } else {
         if (typeof val == 'string') {

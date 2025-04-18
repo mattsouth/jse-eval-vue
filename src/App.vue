@@ -373,7 +373,7 @@ export default {
       }
       for (const dd of this.variables.filter((x) => !dds.includes(x))) {
         // add new variables to the context
-        this.context.push({ name: dd, values: [null], selected: [] })
+        this.context.push({ name: dd, values: [undefined, null], selected: [] })
       }
       for (const idx of old) {
         // remove context variables without values
