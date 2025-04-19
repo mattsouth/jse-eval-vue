@@ -54,4 +54,4 @@ This work relies on the following libraries:
 
 ## github pages
 
-To push to github pages, run ``node script/gh-pages-deploy.js`` from the root directory (assuming you have sufficient privileges)
+To push to github pages, run ``node scripts/gh-pages-deploy.js`` from the root directory (assuming you have sufficient privileges)
