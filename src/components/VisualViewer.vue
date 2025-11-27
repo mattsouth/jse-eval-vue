@@ -59,13 +59,24 @@
     value.raw
   }}</template>
   <template v-if="value.type == 'CallExpression'">
-    <span class="fst-italic">{{ value.callee.name }}</span>
+    <expr-viewer :value="value.callee" />
     (
     <template v-for="key of Object.keys(value.arguments)" :key="key">
       <expr-viewer :value="value.arguments[key]" />
       <span v-if="key < value.arguments.length - 1">, </span>
     </template>
     )
+  </template>
+  <template v-if="value.type == 'MemberExpression'">
+    <template v-if="value.computed">
+      <expr-viewer :value="value.object" />
+      [ <expr-viewer :value="value.property" /> ]
+    </template>
+    <template v-else>
+      <expr-viewer :value="value.object" />
+      .
+      <expr-viewer :value="value.property" />
+    </template>
   </template>
 </template>
 
@@ -93,6 +104,11 @@ export default {
             )
           case 'UnaryExpression':
             return Object.keys(this.value.argument).includes('type')
+          case 'MemberExpression':
+            return (
+              Object.keys(this.value.object).includes('type') &&
+              Object.keys(this.value.property).includes('type')
+            )
           default:
             return true
         }

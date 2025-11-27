@@ -42,12 +42,21 @@ export default {
         }
 
         if (node.type === 'MemberExpression') {
-          return (
-            this.stringifyAst(node.object, depth + 1) +
-            '[' +
-            this.stringifyAst(node.property, depth + 1) +
-            ']'
-          )
+          if (node.computed) {
+            return (
+              this.stringifyAst(node.object, depth + 1) +
+              '[' +
+              this.stringifyAst(node.property, depth + 1) +
+              ']'
+            )
+          } else {
+            return (
+              this.stringifyAst(node.object, depth + 1) +
+              '.' +
+              this.stringifyAst(node.property, depth + 1)
+            )
+          }
+
         }
 
         if (node.type === 'Identifier') {

@@ -80,7 +80,22 @@ A reference to an object attribute, e.g. ``test['a']``
 }
 ```
 
-Im not sure what the computed attribute indicates but I can see it set to true and false in the parser.
+Im not sure what the computed attribute indicates but I can see it set to true and false in the parser and I can see it changed in this equivalent expression: `test.a`:
+
+```json
+{
+  "type": "MemberExpression",
+  "computed": false,
+  "object": {
+    "type": "Identifier",
+    "name": "test"
+  },
+  "property": {
+    "type": "Identifier",
+    "name": "a"
+  }
+}
+```
 
 ### Literal
 

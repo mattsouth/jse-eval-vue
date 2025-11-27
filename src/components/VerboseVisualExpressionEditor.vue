@@ -101,6 +101,48 @@
       @update-sub="updateSub"
     />
   </v-block>
+  <!-- member expression -->
+  <v-block v-if="modelValue.type == 'MemberExpression'" :depth="depth" :disabled="disabled">
+    <v-expr-viewer
+      v-model="modelValue['object']"
+      :depth="this.depth"
+      att="test"
+      @delete-sub="deleteSub"
+      @update-sub="updateSub"
+    />
+    <template v-if="modelValue.computed">
+      <v-row @delete="deleteRow" @delete-sub="deleteSub"
+        ><span class="badge bg-secondary me-2">[</span></v-row
+      >
+      <v-expr-viewer
+        v-if="modelValue.computed"
+        v-model="modelValue['property']"
+        :depth="this.depth"
+        att="test"
+        @delete-sub="deleteSub"
+        @update-sub="updateSub"
+      />
+      <v-row @delete="deleteRow" @delete-sub="deleteSub"
+        ><span class="badge bg-secondary me-2">]</span></v-row
+      >
+    </template>
+    <template v-else>
+        <v-row @delete="deleteRow" @delete-sub="deleteSub"
+          ><span class="badge bg-secondary me-2">.</span></v-row
+        >
+        <v-expr-viewer
+        v-if="modelValue.computed"
+        v-model="modelValue['property']"
+        :depth="this.depth"
+        att="test"
+        @delete-sub="deleteSub"
+        @update-sub="updateSub"
+      />
+      <v-row v-else @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
+        <span class="fst-italic badge bg-secondary">{{ modelValue.property.name }}()</span>
+      </v-row>
+    </template>
+  </v-block>
   <!-- binary expression -->
   <template v-if="modelValue.type == 'BinaryExpression'">
     <!-- first check for continuation of OR or AND which can be flattened -->
@@ -212,9 +254,18 @@
   </template>
   <template v-if="modelValue.type == 'CallExpression'">
     <v-block :depth="depth" :disabled="disabled">
-      <v-row @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
+      <v-row v-if="modelValue.callee.name" @delete="deleteRow" @delete-sub="deleteSub" @update-sub="updateSub">
         <span class="fst-italic badge bg-secondary">{{ modelValue.callee.name }}()</span>
       </v-row>
+      <v-expr-viewer
+        v-else
+        v-model="modelValue.callee"
+        att="callee"
+        :depth="depth"
+        @delete="deleteRow"
+        @delete-sub="deleteSub"
+        @update-sub="updateSub"
+      />
       <template v-for="key of Object.keys(modelValue.arguments)" :key="key">
         <v-expr-viewer
           v-model="modelValue.arguments[key]"

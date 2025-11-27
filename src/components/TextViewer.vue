@@ -82,12 +82,20 @@ export default {
         }
 
         if (node.type === 'MemberExpression') {
-          return (
-            this.stringifyExpandedAst(node.object, depth + 1) +
-            '[' +
-            this.stringifyExpandedAst(node.property, depth + 1) +
-            ']'
-          )
+          if (node.computed) {
+            return (
+              this.stringifyExpandedAst(node.object, depth + 1) +
+              '[' +
+              this.stringifyExpandedAst(node.property, depth + 1) +
+              ']'
+            )
+          } else {
+            return (
+              this.stringifyExpandedAst(node.object, depth + 1) +
+              '.' +
+              this.stringifyExpandedAst(node.property, depth + 1)
+            )
+          }
         }
 
         if (node.type === 'Identifier') {
