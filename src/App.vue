@@ -114,7 +114,7 @@
           <button
             type="button"
             class="btn btn-primary btn-sm float-end"
-            :disabled="Object.keys(expr).length == 0"
+            :disabled="!(text.length > 0 || context.length>0)"
             data-bs-toggle="modal"
             data-bs-target="#shareModal"
           >
@@ -324,12 +324,13 @@ export default {
   methods: {
     shareURL() {
       return (
-        import.meta.env.BASE_URL +
-        '?expr=' +
-        encodeURIComponent(this.expr) +
-        '&context=' +
+        import.meta.env.BASE_URL + '?' +
+        (this.expr && this.expr.length>0 ?
+        'expr=' +
+        encodeURIComponent(this.expr) + '&' : '') +
+        'context=' +
         encodeURIComponent(
-          JSON.stringify(this.context.filter((val) => this.variables.includes(val.name)))
+          JSON.stringify(this.context)
         )
       )
     },
