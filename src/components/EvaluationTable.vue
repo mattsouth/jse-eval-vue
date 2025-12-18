@@ -92,11 +92,10 @@ export default {
     },
     combinations() {
       const r = []
-      const dds = this.variables
       const helper = (obj, i) => {
         for (var j = 0, l = this.values(this.filtered[i]).length; j < l; j++) {
           var o = { ...obj } // clone obj
-          o[dds[i]] = this.values(this.filtered[i])[j]
+          o[this.filtered[i].name] = this.values(this.filtered[i])[j]
           if (i == this.filtered.length - 1) r.push(o)
           else helper(o, i + 1)
         }
