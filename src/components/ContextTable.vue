@@ -91,7 +91,6 @@ TODO: separate out the modal component?
                     renderValue(current.values[idx])
                   }}</span>
                   <button
-                    v-if="value != null"
                     type="button"
                     @click="removeValue(idx)"
                     class="btn btn-light btn-sm float-end"
@@ -219,7 +218,7 @@ export default {
     },
     updateContextValue(rawval) {
       try {
-        const value = JSON.parse(rawval)
+        const value = rawval == 'undefined' ? undefined : JSON.parse(rawval)
         this.modalState.valid = true
         const clone = [...this.context]
         if (this.modalState.valueIdx == -1) {
@@ -251,6 +250,7 @@ export default {
     cancelUpdate() {
       this.modalState.valueIdx = -1
       this.modalState.value = null
+      this.modalState.valid = true
     }
   }
 }
