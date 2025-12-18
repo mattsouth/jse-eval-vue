@@ -219,6 +219,14 @@ export default {
     const urlParams = new URLSearchParams(window.location.search)
     if (urlParams.get('context')) {
       this.context = JSON.parse(urlParams.get('context'))
+      for (let variable of this.context) {
+        // undefined isnt valid JSON, but is a default value provided in this tool
+        // so here we look for a common pattern where undefined is
+        // converted to null when its stringified and convert it back
+        if (variable.values[0]==null && variable.values[1]==null) {
+          variable.values[0]=undefined
+        }
+      }
     }
     if (urlParams.get('expr')) {
       this.text = urlParams.get('expr')
